@@ -21,7 +21,7 @@ If you want to change this tip, you can supply additional command line arguments
 
 You need:
 * Bybit Account
-* Some sUSD or USDT in Bybit
+* Some sUSD in Optimism, or USDT in Bybit
 * Static IP address (required for withdrawals on Bybit) 
 * Node.js & NPM installed on your computer
 
@@ -48,7 +48,7 @@ The first argument is the token you want to trade, the second argument is the le
 
 Copyright (C) 2023  Daniel Beal
 
-This program is licensed under the GNU GPLv3. See `LICENSE` file for more information.
+This program is distributed under the terms of the GNU GPLv3 license. See `LICENSE` file for more information.
 
 This program comes with ABSOLUTELY NO WARRANTY.
 
