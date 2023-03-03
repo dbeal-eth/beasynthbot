@@ -1,0 +1,15 @@
+{
+    "optimism": {
+        "tokens": {
+            "sUSD": "0x8c6f28f2f1a3c87f0f938b96d27520d9751ec8d9",
+            "USDT": "0x94b008aa00579c1307b0ef2c499ad98a8ce58e58"
+        },
+        "markets": {
+
+        },
+        "exchanges": {
+            "UniswapRouter": "0xE592427A0AEce92De3Edee1F18E0157C05861564",
+            "UniswapQuoter": "0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6"
+        }
+    }
+}

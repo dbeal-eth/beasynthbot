@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# url to an optimism RPC endpoint
+export ARB_PROVIDER_URL=https://optimism-mainnet.infura.io/v3/<INFURA_KEY>
+
+# private key export
+export ARB_PRIVATE_KEY=<0x....>
+
+# your bybit credentials (generated on the website)
+export BYBIT_API_KEY=<key>
+export BYBIT_API_SECRET=<secret>
+
+export symbol=$1
+export leverage=$2
+
+node out/index.js -s $symbol -l $leverage -r 0.5
