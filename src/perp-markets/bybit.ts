@@ -182,7 +182,7 @@ export default class BybitPerpMarket implements PerpsMarketAdapter {
         return (parseFloat(orderbook.data.result.a[0][0]) + parseFloat(orderbook.data.result.b[0][0])) / 2;
     }
 
-    async getBalance(): Promise<number> {
+    async getBalance(symbols: string[]): Promise<number> {
         const balanceResult = await this.makeRequest(`/v5/asset/transfer/query-account-coin-balance`, 'GET', {
             coin: this.baseToken,
             accountType: 'CONTRACT'
@@ -192,7 +192,7 @@ export default class BybitPerpMarket implements PerpsMarketAdapter {
     }
 
     async getMaxProfitableSize(symbol: string, leverage: number): Promise<number> {
-        return leverage * 0.95 * await this.getBalance() / await this.getPrice(symbol);
+        return leverage * 0.95 * await this.getBalance([symbol]) / await this.getPrice(symbol);
     }
 
     async getRequiredDepositToken(): Promise<string> {
@@ -206,7 +206,7 @@ export default class BybitPerpMarket implements PerpsMarketAdapter {
 
         const tokenContract = getTokenContract('USDT', wallet);
 
-        const prevBalance = await this.getBalance();
+        const prevBalance = await this.getBalance([]);
 
         timelog('bybit reported deposit address', depositAddr);
 
@@ -216,7 +216,7 @@ export default class BybitPerpMarket implements PerpsMarketAdapter {
 
         // wait for our available balance to go up
         await condition(
-            async () => await this.getBalance() - prevBalance,
+            async () => await this.getBalance([]) - prevBalance,
         );
     }
 

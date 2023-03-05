@@ -7,7 +7,7 @@ export interface PerpsMarketAdapter {
     readMarketData: (symbol: string, amount: number) => Promise<PerpsMarketInfo>;
     setOrder: (order: PerpsOrder) => Promise<void>;
     
-    getBalance: () => Promise<number>;
+    getBalance: (symbols: string[]) => Promise<number>;
     getMaxProfitableSize: (symbol: string, leverage: number) => Promise<number>;
     getRequiredDepositToken: () => Promise<string>;
     getPrice: (symbol: string) => Promise<number>;

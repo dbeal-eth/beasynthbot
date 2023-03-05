@@ -105,15 +105,20 @@ export default class SynthetixPerpsMarket implements PerpsMarketAdapter {
         ));
     }
 
-    async getBalance(): Promise<number> {
-        const contract = await this.getContractForSymbol('DYDX');
+    async getBalance(symbols: string[]): Promise<number> {
         const tokenContract = getTokenContract('sUSD', this.wallet);
-        return parseFloat(ethers.formatEther((await contract.remainingMargin(this.wallet.address))[0])) +
-            parseFloat(ethers.formatEther(await tokenContract.balanceOf(this.wallet.address)));
+        let totalBalance = parseFloat(ethers.formatEther(await tokenContract.balanceOf(this.wallet.address)));
+
+        for (const symbol of symbols) {
+            const contract = await this.getContractForSymbol(symbol);
+            totalBalance += parseFloat(ethers.formatEther((await contract.remainingMargin(this.wallet.address))[0]));
+        }
+
+        return totalBalance
     }
 
     async getMaxProfitableSize(symbol: string, leverage: number): Promise<number> {
-        return leverage * 0.95 * await this.getBalance() / await this.getPrice(symbol);
+        return leverage * 0.95 * await this.getBalance([symbol]) / await this.getPrice(symbol);
     }
 
     async getPrice(symbol: string) {

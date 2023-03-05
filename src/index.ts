@@ -65,7 +65,7 @@ program
         const calculateTotalBalance = async function() {
             let totalBalance = 0;
             for (const n in allPerpsMarkets) {
-                totalBalance += await allPerpsMarkets[n].getBalance();
+                totalBalance += await allPerpsMarkets[n].getBalance([opts.symbol]);
             }
 
             return totalBalance;
@@ -161,7 +161,7 @@ program
     
                     // verify that we don't need to rebalance. if so, call `applyTrade`
                     //const longPerpsBalance = await currentTrade.longMarket.getBalance();
-                    const shortPerpsBalance = await allPerpsMarkets[currentTrade.shortMarket].getBalance();
+                    const shortPerpsBalance = await allPerpsMarkets[currentTrade.shortMarket].getBalance([opts.symbol]);
                 
                     const totalBalance = await calculateTotalBalance();
     
@@ -206,8 +206,8 @@ async function transferBetweenPerpsMarkets(wallet: ethers.Wallet, fromPerps: Per
 async function applyPosition(wallet: ethers.Wallet, longPerps: PerpsMarketAdapter, shortPerps: PerpsMarketAdapter, opts: TradeOptions) {
     timelog(`apply ${wallet.address} ${longPerps.name()} -${shortPerps.name()} ${opts.symbol} ${opts.leverage}`)
     // calculate total balance of account
-    const longPerpsBalance = await longPerps.getBalance();
-    const shortPerpsBalance = await shortPerps.getBalance();
+    const longPerpsBalance = await longPerps.getBalance([opts.symbol]);
+    const shortPerpsBalance = await shortPerps.getBalance([opts.symbol]);
 
     const totalBalance = longPerpsBalance + shortPerpsBalance;
 
@@ -226,7 +226,7 @@ async function applyPosition(wallet: ethers.Wallet, longPerps: PerpsMarketAdapte
 
     // the size of the position is the amount of balance we have in the lowest account divided by the token price, with a bit of margin
     //console.log('FIGURE IT OUT', opts.leverage, Math.min(await longPerps.getBalance(), await shortPerps.getBalance()), await longPerps.getPrice(opts.symbol), await shortPerps.getPrice(opts.symbol));
-    const positionAmount = opts.leverage * 0.95 * Math.min(await longPerps.getBalance(), await shortPerps.getBalance()) / 
+    const positionAmount = opts.leverage * 0.95 * Math.min(await longPerps.getBalance([opts.symbol]), await shortPerps.getBalance([opts.symbol])) / 
         Math.max(await longPerps.getPrice(opts.symbol), await shortPerps.getPrice(opts.symbol));
 
     // actualize trade
